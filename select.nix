@@ -169,12 +169,18 @@ rec {
                 selectors = state.selectors ++ [
                   {
                     type = "set";
-                    value = state.acc_selectors ++ [
-                      {
-                        type = if state.submode == "" then str else state.submode;
-                        value = state.acc_str;
-                      }
-                    ];
+                    value = if
+                      state.acc_str == ""
+                    then
+                      state.acc_selectors
+                    else
+                      state.acc_selectors ++ [
+                        {
+                          type = if state.submode == "" then "str" else state.submode;
+                          value = state.acc_str;
+                        }
+                      ];
+
                   }
                 ];
                 submode = "";
