@@ -122,4 +122,8 @@ in
       }
     );
     true;
+
+  maybeNotInSet = assert ((select "{?no}" null) ==  {}); true;
+  maybeNotInSet2 = assert ((select "?no" null) ==  {}); true;
+  emptySet = assert ((select "{}" null) ==  {}); true;
 }
