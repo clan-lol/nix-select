@@ -331,7 +331,23 @@ rec {
             else
               throw "unexpected type ${selector.type}"
           else
-            throw "unexpected type ${builtins.typeOf obj}";
+            if selector.type == "maybe" then
+              { }
+            else if selector.type == "set" then
+              builtins.foldl' (acc: sel:
+                if sel.type == "maybe" then
+                  acc
+                else if sel.type == "str" then
+                  acc // {
+                    ${sel.value} = builtins.getAttr selector.value obj;
+                  }
+                else
+                  throw "unexpeced selector type ${sel.type} with ${sel.value}"
+              ) { } selector.value
+              
+              
+            else
+              throw "unexpected type ${builtins.typeOf obj}";
     in
     recurse selectors 0 obj;
 
